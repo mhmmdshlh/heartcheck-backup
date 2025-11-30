@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Disease Prediction Loading</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div id="splash-screen">
+        <div class="heart-container">
+            <svg viewBox="0 0 300 200">
+                <path class="heart-shape"
+                    d="M150 50 C 130 20, 70 20, 70 70 C 70 110, 150 170, 150 170 C 150 170, 230 110, 230 70 C 230 20, 170 20, 150 50 Z" />
+
+                <polyline class="ecg-line" points="0,110 100,110 115,80 130,140 145,60 160,160 175,110 300,110" />
+            </svg>
+        </div>
+        <div class="loading-text">MEMUAT SISTEM...</div>
+    </div>
+
+    <main class="hero">
+
+        <div class="hero-content">
+            <h1>Cek Kesehatan Jantung Anda</h1>
+            <p class="subtitle">
+                Sistem prediksi ini membantu Anda mengetahui tingkat risiko penyakit jantung berdasarkan data kesehatan
+                pribadi. Isi formulir di bawah dengan data yang akurat untuk mendapatkan hasil prediksi yang optimal.
+            </p>
+            <a href="#form-prediksi" class="btn-start">Mulai Cek Sekarang</a>
+        </div>
+
+        <div class="hero-visual">
+            <div class="monitor-display">
+                <svg viewBox="0 0 500 400">
+                    <path class="heart-bg"
+                        d="M250 100 C 220 50, 120 50, 120 130 C 120 200, 250 320, 250 320 C 250 320, 380 200, 380 130 C 380 50, 280 50, 250 100 Z" />
+
+                    <path id="ecgLine" class="ecg-path"
+                        d="M0,200 L100,200 L120,150 L140,250 L160,100 L180,300 L200,200 L500,200" />
+
+                    <circle class="dot" cx="0" cy="0" r="4" />
+                </svg>
+            </div>
+        </div>
+    </main>
+
+    <div id="form-prediksi" class="form-section">
+        <div class="form-container">
+            <h2>Form Prediksi Risiko Penyakit Jantung</h2>
+            <p class="form-subtitle">Silakan isi data kesehatan Anda dengan lengkap dan akurat</p>
+
+            <form id="predictionForm">
+                <!-- Data Pribadi -->
+                <div class="form-group-section">
+                    <h3>Data Pribadi</h3>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ageCategory">Kategori Usia *</label>
+                            <select id="ageCategory" name="ageCategory" required>
+                                <option value="" disabled hidden selected>Pilih Kategori Usia</option>
+                                <option value="18-24">18-24 tahun</option>
+                                <option value="25-29">25-29 tahun</option>
+                                <option value="30-34">30-34 tahun</option>
+                                <option value="35-39">35-39 tahun</option>
+                                <option value="40-44">40-44 tahun</option>
+                                <option value="45-49">45-49 tahun</option>
+                                <option value="50-54">50-54 tahun</option>
+                                <option value="55-59">55-59 tahun</option>
+                                <option value="60-64">60-64 tahun</option>
+                                <option value="65-69">65-69 tahun</option>
+                                <option value="70-74">70-74 tahun</option>
+                                <option value="75-79">75-79 tahun</option>
+                                <option value="80 or older">80 tahun atau lebih</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sex">Jenis Kelamin *</label>
+                            <select id="sex" name="sex" required>
+                                <option value="" disabled hidden selected>Pilih Jenis Kelamin</option>
+                                <option value="Male">Laki-laki</option>
+                                <option value="Female">Perempuan</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data Fisik (untuk BMI) -->
+                <div class="form-group-section">
+                    <h3>Data Fisik</h3>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="height">Tinggi Badan (cm) *</label>
+                            <input type="number" id="height" name="height" min="100" max="250" step="0.1" required
+                                placeholder="Contoh: 170">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="weight">Berat Badan (kg) *</label>
+                            <input type="number" id="weight" name="weight" min="30" max="300" step="0.1" required
+                                placeholder="Contoh: 70">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bmi">BMI (dihitung otomatis)</label>
+                        <input type="text" id="bmi" name="bmi" readonly placeholder="BMI akan dihitung otomatis">
+                        <small class="bmi-category" id="bmiCategory"></small>
+                    </div>
+                </div>
+
+                <!-- Kondisi Kesehatan Umum -->
+                <div class="form-group-section">
+                    <h3>Kondisi Kesehatan</h3>
+
+                    <div class="form-group">
+                        <label for="genHealth">Kesehatan Umum (Skala 0-4) *</label>
+                        <div class="rating-container">
+                            <input type="range" id="genHealth" name="genHealth" min="0" max="4" value="2" required>
+                            <div class="rating-labels">
+                                <span>0<br><small>Poor</small></span>
+                                <span>1<br><small>Fair</small></span>
+                                <span>2<br><small>Good</small></span>
+                                <span>3<br><small>Very Good</small></span>
+                                <span>4<br><small>Excellent</small></span>
+                            </div>
+                            <div class="rating-value">Nilai: <span id="genHealthValue">2</span></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="diabetic">Status Diabetes *</label>
+                        <select id="diabetic" name="diabetic" required>
+                            <option value="" disabled hidden selected>Pilih Status Diabetes</option>
+                            <option value="No">Tidak</option>
+                            <option value="Yes">Ya</option>
+                            <option value="No, borderline diabetes">Tidak, tapi pradiabetes</option>
+                            <option value="Yes (during pregnancy)">Ya, diabetes gestasional saat hamil</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Gaya Hidup -->
+                <div class="form-group-section">
+                    <h3>Gaya Hidup</h3>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Merokok *</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="smoking" value="Yes" required>
+                                    <span>Ya</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="smoking" value="No" required>
+                                    <span>Tidak</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Konsumsi Alkohol *</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="alcoholDrinking" value="Yes" required>
+                                    <span>Ya</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="alcoholDrinking" value="No" required>
+                                    <span>Tidak</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Aktivitas Fisik (30 hari terakhir) *</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="physicalActivity" value="Yes" required>
+                                <span>Ya</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="physicalActivity" value="No" required>
+                                <span>Tidak</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Riwayat Penyakit -->
+                <div class="form-group-section">
+                    <h3>Riwayat Penyakit</h3>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Asma *</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="asthma" value="Yes" required>
+                                    <span>Ya</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="asthma" value="No" required>
+                                    <span>Tidak</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Penyakit Ginjal *</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="kidneyDisease" value="Yes" required>
+                                    <span>Ya</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="kidneyDisease" value="No" required>
+                                    <span>Tidak</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Kanker Kulit *</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="skinCancer" value="Yes" required>
+                                    <span>Ya</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="skinCancer" value="No" required>
+                                    <span>Tidak</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Stroke *</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="stroke" value="Yes" required>
+                                    <span>Ya</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="stroke" value="No" required>
+                                    <span>Tidak</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Kesulitan Berjalan *</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="diffWalking" value="Yes" required>
+                                <span>Ya</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="diffWalking" value="No" required>
+                                <span>Tidak</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    Hitung Risiko
+                </button>
+            </form>
+
+            <div id="resultSection" class="result-section hidden">
+                <div class="loading-state">
+                    <div class="loading-spinner"></div>
+                    <p class="loading-text">Menganalisis data kesehatan Anda...</p>
+                </div>
+
+                <div id="resultContent" class="result-content hidden">
+                    <div class="result-card">
+                        <div class="result-header">
+                            <h3>Hasil Prediksi Risiko Penyakit Jantung</h3>
+                        </div>
+
+                        <div class="risk-meter">
+                            <div class="risk-circle" id="riskCircle">
+                                <div class="risk-percentage" id="riskPercentage">0%</div>
+                                <div class="risk-label" id="riskLabel">-</div>
+                            </div>
+                        </div>
+
+                        <div class="risk-bar-container">
+                            <div class="risk-bar">
+                                <div class="risk-bar-fill" id="riskBarFill"></div>
+                            </div>
+                            <div class="risk-bar-labels">
+                                <span>0%</span>
+                                <span>25%</span>
+                                <span>50%</span>
+                                <span>75%</span>
+                                <span>100%</span>
+                            </div>
+                        </div>
+
+                        <div class="recommendations">
+                            <h4>Rekomendasi Kesehatan:</h4>
+                            <ul class="recommendation-list" id="recommendationList"></ul>
+                        </div>
+
+                        <div class="result-disclaimer">
+                            <p><strong>Disclaimer:</strong> Hasil ini adalah prediksi berbasis AI dan tidak menggantikan
+                                diagnosis medis profesional.
+                                Selalu konsultasikan dengan dokter untuk evaluasi kesehatan yang akurat.</p>
+                        </div>
+
+                        <button onclick="resetForm()" class="btn-reset">Cek Ulang</button>
+                    </div>
+                </div>
+
+                <div id="errorContent" class="error-content hidden">
+                    <div class="error-card">
+                        <div class="error-icon">❌</div>
+                        <h3 class="error-title">Terjadi Kesalahan</h3>
+                        <p class="error-message" id="errorMessage"></p>
+                        <button onclick="resetForm()" class="btn-reset">Coba Lagi</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
