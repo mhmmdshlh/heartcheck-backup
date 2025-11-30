@@ -400,6 +400,10 @@ svg {
     font-size: 0.85rem;
 }
 
+.form-group label small {
+    font-size: 0.75rem;
+}
+
 .bmi-category {
     font-weight: 600;
     padding: 5px 10px;
@@ -504,6 +508,14 @@ svg {
     margin-top: 4px;
     font-size: 0.75rem;
     color: var(--text-muted);
+}
+
+.rating-labels span:nth-child(1) small {
+    margin-left: 50px;
+}
+
+.rating-labels span:nth-child(5) small {
+    margin-right: 50px;
 }
 
 .rating-value {

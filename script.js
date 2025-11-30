@@ -52,8 +52,21 @@ weightInput.addEventListener('input', calculateBMI);
 const genHealthSlider = document.getElementById('genHealth');
 const genHealthValue = document.getElementById('genHealthValue');
 
+const statusLabels = [
+    "Sangat Sakit",
+    "Sakit",
+    "Biasa Saja",
+    "Sehat",
+    "Sangat Sehat"
+];
+
 genHealthSlider.addEventListener('input', function () {
-    genHealthValue.textContent = this.value;
+    const value = parseInt(genHealthSlider.value);
+    genHealthValue.textContent = statusLabels[value];
+
+    if (value === 0 || value === 1) genHealthValue.style.color = "#f87171";
+    else if (value === 2) genHealthValue.style.color = "#22d3ee";
+    else if (value === 3 || value === 4) genHealthValue.style.color = "#34d399";
 });
 
 const predictionForm = document.getElementById('predictionForm');
